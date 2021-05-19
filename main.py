@@ -7,7 +7,7 @@ if __name__ == '__main__':
     business_ids = []
 
     for business in load_business(categories=business_cats):
-        business_ids.append(business['business_id'])
+        business_ids.append(business.business_id)
 
     for review in itertools.islice(load_reviews(business_ids=business_ids), 5000):
-        pass
+        print(f'business: {review.business_id} -> star: {review.stars}')

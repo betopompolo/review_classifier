@@ -1,21 +1,23 @@
 import json
 
-from typing import List
+from typing import List, Generator
+
+from business import Business
+from review import Review
 
 
-def load_business(categories: List[str]):
+def load_business(categories: List[str]) -> Generator[Business, None, None]:
     with open('./dataset/business.json') as file_reader:
         for json_line in file_reader:
-            business = json.loads(json_line)
-            cats_str = business['categories']
-            cats = [cat.lower().strip() for cat in cats_str.split(',')] if cats_str else []
+            business: Business = json.loads(json_line, object_hook=Business)
+            cats = [cat.lower().strip() for cat in business.categories.split(',')] if business.categories else []
             if any(cat in cats for cat in categories):
                 yield business
 
 
-def load_reviews(business_ids: List[str]):
+def load_reviews(business_ids: List[str]) -> Generator[Review, None, None]:
     with open('./dataset/review.json') as file_reader:
         for json_line in file_reader:
-            review = json.loads(json_line)
-            if review['business_id'] in business_ids:
+            review: Review = json.loads(json_line, object_hook=Review)
+            if review.business_id in business_ids:
                 yield review
