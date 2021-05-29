@@ -1,4 +1,6 @@
 import json
+import re
+import string
 
 from typing import List, Generator
 
@@ -21,3 +23,11 @@ def load_reviews(business_ids: List[str]) -> Generator[Review, None, None]:
             review: Review = json.loads(json_line, object_hook=Review)
             if review.business_id in business_ids:
                 yield review
+
+
+regex = re.compile(r'[^\w\s]')
+
+
+def format_review_text(text: str) -> str:
+    return regex.sub(' ', text.lower())
+
