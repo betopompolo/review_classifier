@@ -1,12 +1,11 @@
 import json
 import re
-
-from typing import List, Generator
+from typing import List, Iterator
 
 from model import Business, Review
 
 
-def load_business(categories: List[str]) -> Generator[Business, None, None]:
+def load_business(categories: List[str]) -> Iterator[Business]:
     with open('./dataset/business.json') as file_reader:
         for json_line in file_reader:
             business: Business = json.loads(json_line, object_hook=Business)
@@ -17,7 +16,7 @@ def load_business(categories: List[str]) -> Generator[Business, None, None]:
     print('closing business file stream')
 
 
-def load_reviews(business_ids: List[str]) -> Generator[Review, None, None]:
+def load_reviews(business_ids: List[str]) -> Iterator[Review]:
     with open('./dataset/review.json') as file_reader:
         for json_line in file_reader:
             review: Review = json.loads(json_line, object_hook=Review)
@@ -32,4 +31,3 @@ regex = re.compile(r'[^\w\s]')
 
 def format_review_text(text: str) -> str:
     return regex.sub(' ', text.lower())
-
