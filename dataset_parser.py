@@ -1,11 +1,9 @@
 import json
 import re
-import string
 
 from typing import List, Generator
 
-from business import Business
-from review import Review
+from model import Business, Review
 
 
 def load_business(categories: List[str]) -> Generator[Business, None, None]:
@@ -16,6 +14,8 @@ def load_business(categories: List[str]) -> Generator[Business, None, None]:
             if any(cat in cats for cat in categories):
                 yield business
 
+    print('closing business file stream')
+
 
 def load_reviews(business_ids: List[str]) -> Generator[Review, None, None]:
     with open('./dataset/review.json') as file_reader:
@@ -23,6 +23,8 @@ def load_reviews(business_ids: List[str]) -> Generator[Review, None, None]:
             review: Review = json.loads(json_line, object_hook=Review)
             if review.business_id in business_ids:
                 yield review
+
+    print('closing review stream')
 
 
 regex = re.compile(r'[^\w\s]')
