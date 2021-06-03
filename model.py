@@ -1,6 +1,3 @@
-from typing import List
-
-
 class Business:
     business_id: str
     name: str
@@ -16,7 +13,7 @@ class Business:
     categories: str
 
     def __init__(self, business_dict):
-        self.__dict__.update(business_dict)
+        self.__dict__ = business_dict
 
 
 class Review:
@@ -31,4 +28,4 @@ class Review:
     cool: int
 
     def __init__(self, review_dict):
-        self.__dict__.update(review_dict)
+        self.__dict__ = review_dict
