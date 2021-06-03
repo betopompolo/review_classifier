@@ -5,6 +5,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 def lsi_analysis(reviews_texts: List[str]) -> TruncatedSVD:
-    word_bag = TfidfVectorizer(lowercase=False).fit_transform(reviews_texts)
-    lsi = TruncatedSVD(n_iter=100)
+    vectorizer = TfidfVectorizer(lowercase=False, ngram_range=(2, 2), stop_words=['the', 'is', 'that'])
+    word_bag = vectorizer.fit_transform(reviews_texts)
+    lsi = TruncatedSVD(n_components=100)
     return lsi.fit_transform(word_bag)

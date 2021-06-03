@@ -1,7 +1,6 @@
-import itertools
 from typing import List
 
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 
 from analysis import lsi_analysis
@@ -19,9 +18,11 @@ if __name__ == '__main__':
         review_stars.append(review.stars)
 
     lsi_matrix = lsi_analysis(review_texts)
-    classifier = LogisticRegression()
+    classifiers = [LinearRegression()]
     X_train, X_test, y_train, y_test = train_test_split(lsi_matrix, review_stars, test_size=0.33, random_state=42)
 
-    classifier.fit(X_train, y_train)
-    score = classifier.score(X_test, y_test)
-    print(f'score {score}')
+    for classifier in classifiers:
+        classifier.fit(X_train, y_train)
+        score = classifier.score(X_test, y_test)
+        print(f'{classifier} score {score}')
+
