@@ -27,7 +27,7 @@ def load_reviews(business_ids: List[str]) -> Iterator[Review]:
     print('closing review stream')
 
 
-regex = re.compile(r'[^\w\s]')
+regex = re.compile('[^a-zA-Z]')
 
 
 def format_review_text(text: str) -> str:
